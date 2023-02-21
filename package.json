@@ -1,0 +1,53 @@
+{
+  "name": "@fantastic-utils/ballon",
+  "version": "0.0.1",
+  "description": "react state management and operation library",
+  "main": "dist/esm/index.js",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "dev": "father dev",
+    "test": "jest",
+    "build": "father build",
+    "prepublishOnly": "father doctor && npm run build"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "immer",
+    "mutative",
+    "memoize-one",
+    "vuex",
+    "state",
+    "state management"
+  ],
+  "authors": [
+    "zsney.lzhou@gmail.com"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist",
+    "compiled"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.20.2",
+    "@types/jest": "^29.2.5",
+    "@types/react": "^18.0.28",
+    "babel-jest": "^29.4.3",
+    "father": "^4.1.2",
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.3"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.21.0",
+    "memoize-one": "^6.0.0",
+    "mutative": "^0.4.2",
+    "redux": "^4.1.0"
+  }
+}
