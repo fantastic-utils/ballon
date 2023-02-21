@@ -19,7 +19,7 @@ Here is an basic usage case.
 
 ```js
 // store.js
-import { createStore } from 'by-state';
+import { createStore } from '@fantastic-utils/ballon';
 
 const store = createStore({
   state: { name: 'lucky', age: 12 },
@@ -44,8 +44,7 @@ export default store;
 ```jsx
 // App.jsx
 import React, { useCallback } from 'react';
-import { useStore } from 'by-state';
-import { ByButton } from 'bitd';
+import { useStore } from '@fantastic-utils/ballon';
 
 const App = () => {
   const [state, dispatch, getters, refState] = useStore();
@@ -70,7 +69,7 @@ const App = () => {
       <h1>Name: { name }</h1>
       <p>Age: { age }</p>
       <p>{ isLuckyAdult? 'You are adult' : '' }</p>
-      <ByButton onClick={handleUpdateAge}>Update Age</ByButton>
+      <button onClick={handleUpdateAge}>Update Age</button>
     </div>
   )
 };
@@ -80,7 +79,7 @@ const App = () => {
 ```js
 // index.js
 import ReactDOM from 'react-dom';
-import { StateProvider } from 'by-state';
+import { StateProvider } from '@fantastic-utils/ballon';
 import App from './App';
 import store from './store';
 
@@ -209,7 +208,7 @@ import store from './store';
 const Home = loadable(() => import('./container/About'));
 
 const About = loadable(() =>
-  Promise.all([import('./container/About'), import('./store/about')]).then(
+  Promise.all([import('./container/About'), import('./store/about')]).then(
     ([Component, storeModule]) => {
       store.registerModule(storeModule);
       return Component;
