@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createStore as createReduxStore, applyMiddleware, Store } from 'redux';
 import { create as produce } from 'mutative';
-import memoizeOne from 'memoize-one';
+import { memo as memoizeOne, NormalizeArgCfg } from '@fantastic-utils/memo';
 import useIsomorphicLayoutEffect from './utils/useIsomorphicLayoutEffect';
 
 const { useContext, useState, useRef } = React;
@@ -10,7 +10,7 @@ export enum INTERNAL_TYPES {
   INIT_MODULE = '$$INIT_MODULE',
 }
 
-export interface RevocableProxy<T> {
+export interface RevocableProxy {
   revoke(): void;
   proxy: Object;
 };
@@ -66,7 +66,7 @@ export interface NormalizedModule {
 }
 
 export interface ByStateStore extends Store {
-  getProxyGetters: () => RevocableProxy<any>;
+  getProxyGetters: () => RevocableProxy;
   destroyGetters: () => void;
 }
 
@@ -141,12 +141,16 @@ const normalizeNamespace = (pattern = '') => {
   return { target: ns };
 };
 
+const shouldCompare = (newArgs: any[] | undefined, cachedArgsCfg: NormalizeArgCfg[] | undefined) => {
+  return !(newArgs?.[0] === cachedArgsCfg?.[0]?.r);
+};
+
 const getMemoGetters = (getters: ByStoreGetters = {}) => {
   const properties = Object.getOwnPropertyNames(getters);
   return properties.reduce(
     (prev, property) => ({
       ...prev,
-      [property]: memoizeOne(getters[property]),
+      [property]: memoizeOne(getters[property], { shouldCompare }),
     }),
     {}
   );
@@ -200,7 +204,7 @@ const createReducer = (actions: ByStoreActions) =>
   });
 
 export type proxyGetterMap = {
-  [key: string]: RevocableProxy<ByStoreGetterFn>
+  [key: string]: RevocableProxy
 }
 
 let moduleProxyGettersMap: proxyGetterMap = {};
